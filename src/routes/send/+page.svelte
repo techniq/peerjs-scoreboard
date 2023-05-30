@@ -1,13 +1,14 @@
 <script lang="ts">
 	import { type DataConnection, Peer } from 'peerjs';
+	import { Button, TextField } from 'svelte-ux';
 
 	const peerId = crypto.randomUUID();
 	const peer = new Peer(peerId, {
 		debug: 2
 	});
+	let receiverId = '';
 	let conn: DataConnection | null = null;
 	let status = 'Disconnected';
-	let receiverId = '';
 	let message = '';
 
 	$: console.log('Status:', status);
@@ -49,7 +50,7 @@
 	});
 
 	peer.on('error', (err) => {
-		status = 'ERROR: ' + err;
+		status = 'Error: ' + err;
 	});
 
 	function connect() {
@@ -85,10 +86,17 @@
 	}
 </script>
 
-<div>ID: {peerId}</div>
-<div>Status: {status}</div>
-<input bind:value={receiverId} placeholder="Receiver ID" />
-<button on:click={connect}>Connect</button>
+<div class="grid gap-4">
+	<div>ID: {peerId}</div>
+	<div>Status: {status}</div>
 
-<input bind:value={message} placeholder="Message" />
-<button on:click={sendMessage}>Send</button>
+	<div>
+		<TextField label="Receiver ID" bind:value={receiverId} shrinkLabel class="mb-1" />
+		<Button on:click={connect} variant="fill" color="accent">Connect</Button>
+	</div>
+
+	<div>
+		<TextField label="Message" bind:value={message} shrinkLabel class="mb-1" />
+		<Button on:click={sendMessage} variant="fill" color="accent">Send</Button>
+	</div>
+</div>

@@ -7,6 +7,8 @@
 	let status = 'Awaiting connection...';
 	let messages: string[] = [];
 
+	$: console.log('Status:', status);
+
 	const peer = new Peer(peerId, {
 		debug: 2
 	});
@@ -49,6 +51,10 @@
 			status = 'Connection reset, Awaiting connection...';
 			conn = null;
 		});
+
+		conn.on('error', (err) => {
+			status = 'Connection error: ' + err;
+		});
 	});
 
 	peer.on('disconnected', () => {
@@ -66,12 +72,11 @@
 	});
 
 	peer.on('error', (err) => {
-		console.log(err);
-		status = 'ERROR: ' + err;
+		status = 'Error: ' + err;
 	});
 </script>
 
-<h1>{peerId}</h1>
+<h1 class="text-6xl font-bold">{peerId}</h1>
 <div>Status: {status}</div>
 
 <div>Messages:</div>
