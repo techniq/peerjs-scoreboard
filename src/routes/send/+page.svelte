@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { type DataConnection, Peer } from 'peerjs';
-	import { Button, TextField } from 'svelte-ux';
+	import { Button, Field, ScrollingNumber, TextField } from 'svelte-ux';
+	import { mdiConnection, mdiMinus, mdiPlus, mdiSend } from '@mdi/js';
 
 	const peerId = crypto.randomUUID();
 	const peer = new Peer(peerId, {
@@ -10,6 +11,11 @@
 	let conn: DataConnection | null = null;
 	let status = 'Disconnected';
 	let message = '';
+	let messages: string[] = [];
+	let scores = {
+		red: 0,
+		blue: 0
+	};
 
 	$: console.log('Status:', status);
 
@@ -72,7 +78,11 @@
 
 		// Handle incoming data (messages only since this is the signal sender)
 		conn.on('data', (data) => {
-			// addMessage('<span class="peerMsg">Peer:</span> ' + data);
+			if (data.type === 'message') {
+				messages = [...messages, data.payload];
+			} else if (data.type === 'scores') {
+				scores = data.payload;
+			}
 		});
 
 		conn.on('close', () => {
@@ -81,22 +91,84 @@
 	}
 
 	function sendMessage() {
-		conn?.send(message);
+		conn?.send({ type: 'message', payload: message });
 		message = '';
+	}
+
+	function sendScores() {
+		conn?.send({ type: 'scores', payload: scores });
 	}
 </script>
 
 <div class="grid gap-4">
 	<div>ID: {peerId}</div>
-	<div>Status: {status}</div>
 
-	<div>
+	<form on:submit|preventDefault={connect}>
 		<TextField label="Receiver ID" bind:value={receiverId} shrinkLabel class="mb-1" />
-		<Button on:click={connect} variant="fill" color="accent">Connect</Button>
+		<Button icon={mdiConnection} on:click={connect} variant="fill" color="accent" class="gap-2">
+			Connect
+		</Button>
+		<span>Status: {status}</span>
+	</form>
+
+	<div class="grid grid-cols-2 gap-2">
+		<Field label="Blue" _class="w-36">
+			<ScrollingNumber value={scores.blue} classes={{ root: 'w-full', value: 'w-full' }} />
+			<div slot="append" class="flex">
+				<Button
+					icon={mdiMinus}
+					on:click={() => {
+						scores.blue -= 1;
+						sendScores();
+					}}
+					size="sm"
+				/>
+				<Button
+					icon={mdiPlus}
+					on:click={() => {
+						scores.blue += 1;
+						sendScores();
+					}}
+					size="sm"
+				/>
+			</div>
+		</Field>
+
+		<Field label="Red" _class="w-36">
+			<ScrollingNumber value={scores.red} classes={{ root: 'w-full', value: 'w-full' }} />
+			<div slot="append" class="flex">
+				<Button
+					icon={mdiMinus}
+					on:click={() => {
+						scores.red -= 1;
+						sendScores();
+					}}
+					size="sm"
+				/>
+				<Button
+					icon={mdiPlus}
+					on:click={() => {
+						scores.red += 1;
+						sendScores();
+					}}
+					size="sm"
+				/>
+			</div>
+		</Field>
 	</div>
 
-	<div>
+	<Field label="Messages">
+		<div>
+			{#each messages as message}
+				<div class="text-sm">{message}</div>
+			{:else}
+				<div class="italic text-sm">empty</div>
+			{/each}
+		</div>
+	</Field>
+
+	<form on:submit|preventDefault={sendMessage}>
 		<TextField label="Message" bind:value={message} shrinkLabel class="mb-1" />
-		<Button on:click={sendMessage} variant="fill" color="accent">Send</Button>
-	</div>
+		<Button type="submit" icon={mdiSend} variant="fill" color="accent" class="gap-2">Send</Button>
+	</form>
 </div>

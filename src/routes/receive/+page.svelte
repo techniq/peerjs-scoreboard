@@ -1,11 +1,16 @@
 <script lang="ts">
 	import { type DataConnection, Peer } from 'peerjs';
+	import { Field, ScrollingNumber, TextField } from 'svelte-ux';
 
 	// 4 digit alphanumeric
 	const peerId = Math.random().toString(36).substring(2, 6).toUpperCase();
-	let conn: DataConnection | null = null;
+	let connections: DataConnection[] = [];
 	let status = 'Awaiting connection...';
 	let messages: string[] = [];
+	let scores = {
+		red: 0,
+		blue: 0
+	};
 
 	$: console.log('Status:', status);
 
@@ -14,37 +19,30 @@
 	});
 
 	peer.on('open', (id) => {
-		// Workaround for peer.reconnect deleting previous id
-		if (peer.id === null) {
-			console.log('Received null id from peer open');
-			// peer.id = lastPeerId;
-			peer.id = peerId;
-		} else {
-			// lastPeerId = peer.id;
-		}
-
-		console.log('ID: ' + peer.id);
-		// recvId.innerHTML = 'ID: ' + peer.id;
 		status = 'Awaiting connection...';
+		console.log('ID: ' + peer.id);
 	});
 
-	peer.on('connection', (c) => {
-		// Allow only a single connection
-		if (conn && conn.open) {
-			c.on('open', () => {
-				c.send('Already connected to another client');
-				setTimeout(() => {
-					c.close();
-				}, 500);
-			});
-			return;
-		}
+	peer.on('connection', (conn) => {
+		status = 'Connected to: ' + conn.peer;
+		connections = [...connections, conn];
 
-		conn = c;
-		status = 'Connected to:' + conn.peer;
+		// Send initial scores state to new connection.  Give time for event handling to be ready
+		setTimeout(() => {
+			conn.send({ type: 'scores', payload: scores });
+		}, 500);
 
 		conn.on('data', (data) => {
-			messages = [...messages, data];
+			if (data.type === 'message') {
+				messages = [...messages, data.payload];
+			} else if (data.type === 'scores') {
+				scores = data.payload;
+			}
+
+			// Send back / other connections
+			for (var c of connections) {
+				c.send(data);
+			}
 		});
 
 		conn.on('close', () => {
@@ -59,16 +57,12 @@
 
 	peer.on('disconnected', () => {
 		status = 'Connection lost. Please reconnect';
-
-		// Workaround for peer.reconnect deleting previous id
-		// peer.id = lastPeerId;
-		// peer._lastServerId = lastPeerId;
 		peer.reconnect();
 	});
 
 	peer.on('close', () => {
-		conn = null;
 		status = 'Connection destroyed. Please refresh';
+		conn = null;
 	});
 
 	peer.on('error', (err) => {
@@ -79,7 +73,27 @@
 <h1 class="text-6xl font-bold">{peerId}</h1>
 <div>Status: {status}</div>
 
-<div>Messages:</div>
-{#each messages as message}
-	<div>{message}</div>
-{/each}
+<div class="grid grid-cols-[1fr,1fr] gap-3">
+	<div class="border border-blue-500 bg-blue-50 text-blue-500 rounded-lg p-4">
+		<ScrollingNumber
+			value={scores.blue}
+			classes={{ root: 'h-16', value: 'text-6xl w-full text-center' }}
+		/>
+	</div>
+	<div class="border border-red-500 bg-red-50 text-red-500 rounded-lg p-4">
+		<ScrollingNumber
+			value={scores.red}
+			classes={{ root: 'h-16', value: 'text-6xl w-full text-center' }}
+		/>
+	</div>
+</div>
+
+<Field label="Messages" class="mt-5">
+	<div>
+		{#each messages as message}
+			<div class="text-sm">{message}</div>
+		{:else}
+			<div class="italic text-sm">empty</div>
+		{/each}
+	</div>
+</Field>
