@@ -1,5 +1,5 @@
 {
-	"name": "svelte-peerjs",
+	"name": "peerjs-scoreboard",
 	"version": "0.0.1",
 	"scripts": {
 		"dev": "vite dev",
@@ -24,5 +24,8 @@
 		"typescript": "^4.9.3",
 		"vite": "^4.0.0"
 	},
-	"type": "module"
+	"type": "module",
+	"dependencies": {
+		"peerjs": "^1.4.7"
+	}
 }
