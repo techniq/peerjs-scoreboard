@@ -14,5 +14,9 @@ module.exports = {
 	variants: {
 		extend: {}
 	},
-	plugins: [require('svelte-ux/plugins/tailwind.cjs')]
+	plugins: [require('svelte-ux/plugins/tailwind.cjs')],
+	// Remove hover on mobile - https://github.com/tailwindlabs/tailwindcss/pull/8394
+	future: {
+		hoverOnlyWhenSupported: true
+	}
 };

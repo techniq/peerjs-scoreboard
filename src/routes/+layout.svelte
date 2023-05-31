@@ -24,5 +24,6 @@
 	/* Disable double touch zooming */
 	:global(body) {
 		touch-action: pan-x pan-y;
+		-webkit-tap-highlight-color: transparent;
 	}
 </style>
