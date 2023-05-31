@@ -101,10 +101,15 @@
 </script>
 
 <div class="grid gap-4">
-	<div>ID: {peerId}</div>
-
+	<div class="text-xs text-black/50">ID: {peerId}</div>
 	<form on:submit|preventDefault={connect}>
-		<TextField label="Receiver ID" bind:value={receiverId} shrinkLabel class="mb-1" />
+		<TextField
+			label="Receiver ID"
+			bind:value={receiverId}
+			shrinkLabel
+			class="mb-1"
+			autocapitalize="characters"
+		/>
 		<Button icon={mdiConnection} on:click={connect} variant="fill" color="accent" class="gap-2">
 			Connect
 		</Button>

@@ -30,7 +30,7 @@
 		"autoprefixer": "^10.4.14",
 		"peerjs": "^1.4.7",
 		"svelte-preprocess": "^5.0.4",
-		"svelte-ux": "^0.37.2",
+		"svelte-ux": "^0.37.3",
 		"tailwindcss": "^3.3.2"
 	}
 }
