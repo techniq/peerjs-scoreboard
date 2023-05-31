@@ -20,4 +20,9 @@
 	@tailwind base;
 	@tailwind components;
 	@tailwind utilities;
+
+	/* Disable double touch zooming */
+	:global(body) {
+		touch-action: pan-x pan-y;
+	}
 </style>
