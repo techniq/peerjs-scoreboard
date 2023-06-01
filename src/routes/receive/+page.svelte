@@ -73,18 +73,16 @@
 <h1 class="text-6xl font-bold">{peerId}</h1>
 <div>Status: {status}</div>
 
-<div class="grid grid-cols-[1fr,1fr] gap-3">
-	<div class="border border-blue-500 bg-blue-50 text-blue-500 rounded-lg p-4">
-		<ScrollingNumber
-			value={scores.blue}
-			classes={{ root: 'h-16', value: 'text-6xl w-full text-center' }}
-		/>
+<div class="grid grid-cols-[1fr,1fr] gap-4">
+	<div
+		class="border-2 border-blue-500 bg-blue-50 text-blue-500 rounded-lg p-4 aspect-square grid items-center"
+	>
+		<ScrollingNumber value={scores.blue} class="text-[30vw] w-full text-center" />
 	</div>
-	<div class="border border-red-500 bg-red-50 text-red-500 rounded-lg p-4">
-		<ScrollingNumber
-			value={scores.red}
-			classes={{ root: 'h-16', value: 'text-6xl w-full text-center' }}
-		/>
+	<div
+		class="border-2 border-red-500 bg-red-50 text-red-500 rounded-lg p-4 aspect-square grid items-center"
+	>
+		<ScrollingNumber value={scores.red} class="text-[30vw] w-full text-center" />
 	</div>
 </div>
 
