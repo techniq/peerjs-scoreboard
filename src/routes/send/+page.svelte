@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { type DataConnection, Peer } from 'peerjs';
-	import { Button, Field, ScrollingNumber, TextField } from 'svelte-ux';
-	import { mdiConnection, mdiMinus, mdiPlus, mdiSend } from '@mdi/js';
+	import { Button, ButtonGroup, Field, ScrollingNumber, TextField } from 'svelte-ux';
+	import { mdiConnection, mdiMinus, mdiPlus, mdiRefresh, mdiSend } from '@mdi/js';
 
 	const peerId = crypto.randomUUID();
 	const peer = new Peer(peerId, {
@@ -45,8 +45,8 @@
 		status = 'Connection lost. Please reconnect';
 
 		// Workaround for peer.reconnect deleting previous id
-		peer.id = lastPeerId;
-		peer._lastServerId = lastPeerId;
+		// peer.id = lastPeerId;
+		// peer._lastServerId = lastPeerId;
 		peer.reconnect();
 	});
 
@@ -116,50 +116,60 @@
 		<span>Status: {status}</span>
 	</form>
 
-	<div class="grid grid-cols-2 gap-2">
-		<Field label="Blue" _class="w-36">
-			<ScrollingNumber value={scores.blue} classes={{ root: 'w-full', value: 'w-full' }} />
-			<div slot="append" class="flex">
-				<Button
-					icon={mdiMinus}
-					on:click={() => {
-						scores.blue -= 1;
-						sendScores();
-					}}
-					size="sm"
+	<div class="grid grid-cols-2 gap-4">
+		<ButtonGroup color="blue" variant="fill-light">
+			<Button
+				icon={mdiMinus}
+				on:click={() => {
+					scores.blue -= 1;
+					sendScores();
+				}}
+				size="sm"
+				iconOnly={false}
+			/>
+			<Button class="flex-1 pointer-events-none">
+				<ScrollingNumber
+					value={scores.blue}
+					classes={{ root: 'w-full', value: 'w-full text-center' }}
 				/>
-				<Button
-					icon={mdiPlus}
-					on:click={() => {
-						scores.blue += 1;
-						sendScores();
-					}}
-					size="sm"
-				/>
-			</div>
-		</Field>
+			</Button>
+			<Button
+				icon={mdiPlus}
+				on:click={() => {
+					scores.blue += 1;
+					sendScores();
+				}}
+				size="sm"
+				iconOnly={false}
+			/>
+		</ButtonGroup>
 
-		<Field label="Red" _class="w-36">
-			<ScrollingNumber value={scores.red} classes={{ root: 'w-full', value: 'w-full' }} />
-			<div slot="append" class="flex">
-				<Button
-					icon={mdiMinus}
-					on:click={() => {
-						scores.red -= 1;
-						sendScores();
-					}}
-					size="sm"
+		<ButtonGroup color="red" variant="fill-light">
+			<Button
+				icon={mdiMinus}
+				on:click={() => {
+					scores.red -= 1;
+					sendScores();
+				}}
+				size="sm"
+				iconOnly={false}
+			/>
+			<Button class="flex-1 pointer-events-none">
+				<ScrollingNumber
+					value={scores.red}
+					classes={{ root: 'w-full', value: 'w-full text-center' }}
 				/>
-				<Button
-					icon={mdiPlus}
-					on:click={() => {
-						scores.red += 1;
-						sendScores();
-					}}
-					size="sm"
-				/>
-			</div>
-		</Field>
+			</Button>
+			<Button
+				icon={mdiPlus}
+				on:click={() => {
+					scores.red += 1;
+					sendScores();
+				}}
+				size="sm"
+				iconOnly={false}
+			/>
+		</ButtonGroup>
 	</div>
 
 	<Field label="Messages">
@@ -176,4 +186,18 @@
 		<TextField label="Message" bind:value={message} shrinkLabel class="mb-1" />
 		<Button type="submit" icon={mdiSend} variant="fill" color="accent" class="gap-2">Send</Button>
 	</form>
+
+	<!-- TODO: Add "are you sure" and move to bottom -->
+	<Button
+		type="submit"
+		icon={mdiRefresh}
+		variant="fill"
+		color="red"
+		class="gap-2"
+		on:click={() => {
+			scores.blue = 0;
+			scores.red = 0;
+			sendScores();
+		}}>Reset</Button
+	>
 </div>
