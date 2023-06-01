@@ -68,6 +68,12 @@
 	peer.on('error', (err) => {
 		status = 'Error: ' + err;
 	});
+
+	function sendScores() {
+		for (var c of connections) {
+			c?.send({ type: 'scores', payload: scores });
+		}
+	}
 </script>
 
 <h1 class="text-6xl font-bold">{peerId}</h1>
@@ -75,14 +81,42 @@
 
 <div class="grid grid-cols-[1fr,1fr] gap-4">
 	<div
-		class="border-2 border-blue-500 bg-blue-50 text-blue-500 rounded-lg p-4 aspect-square grid items-center"
+		class="relative border-2 border-blue-500 bg-blue-50 text-blue-500 rounded-lg p-4 aspect-square grid items-center"
 	>
+		<button
+			class="absolute top-0 left-0 right-0 bottom-[50%] z-10"
+			on:click={() => {
+				scores.blue += 1;
+				sendScores();
+			}}
+		/>
 		<ScrollingNumber value={scores.blue} class="text-[30vw] w-full text-center" />
+		<button
+			class="absolute top-[50%] left-0 right-0 bottom-0 z-10"
+			on:click={() => {
+				scores.blue -= 1;
+				sendScores();
+			}}
+		/>
 	</div>
 	<div
-		class="border-2 border-red-500 bg-red-50 text-red-500 rounded-lg p-4 aspect-square grid items-center"
+		class="relative border-2 border-red-500 bg-red-50 text-red-500 rounded-lg p-4 aspect-square grid items-center"
 	>
+		<button
+			class="absolute top-0 left-0 right-0 bottom-[50%] z-10"
+			on:click={() => {
+				scores.red += 1;
+				sendScores();
+			}}
+		/>
 		<ScrollingNumber value={scores.red} class="text-[30vw] w-full text-center" />
+		<button
+			class="absolute top-[50%] left-0 right-0 bottom-0 z-10"
+			on:click={() => {
+				scores.red -= 1;
+				sendScores();
+			}}
+		/>
 	</div>
 </div>
 
