@@ -1,7 +1,15 @@
 <script lang="ts">
 	import { type DataConnection, Peer } from 'peerjs';
-	import { Button, ButtonGroup, Field, ScrollingNumber, TextField } from 'svelte-ux';
-	import { mdiConnection, mdiMinus, mdiPlus, mdiRefresh, mdiSend } from '@mdi/js';
+	import {
+		Button,
+		ButtonGroup,
+		Drawer,
+		Field,
+		ScrollingNumber,
+		TextField,
+		Toggle
+	} from 'svelte-ux';
+	import { mdiConnection, mdiForumOutline, mdiMinus, mdiPlus, mdiRefresh, mdiSend } from '@mdi/js';
 
 	const peerId = crypto.randomUUID();
 	const peer = new Peer(peerId, {
@@ -124,7 +132,6 @@
 					scores.blue -= 1;
 					sendScores();
 				}}
-				size="sm"
 				iconOnly={false}
 			/>
 			<Button class="flex-1 pointer-events-none">
@@ -139,7 +146,6 @@
 					scores.blue += 1;
 					sendScores();
 				}}
-				size="sm"
 				iconOnly={false}
 			/>
 		</ButtonGroup>
@@ -151,7 +157,6 @@
 					scores.red -= 1;
 					sendScores();
 				}}
-				size="sm"
 				iconOnly={false}
 			/>
 			<Button class="flex-1 pointer-events-none">
@@ -166,26 +171,10 @@
 					scores.red += 1;
 					sendScores();
 				}}
-				size="sm"
 				iconOnly={false}
 			/>
 		</ButtonGroup>
 	</div>
-
-	<Field label="Messages">
-		<div>
-			{#each messages as message}
-				<div class="text-sm">{message}</div>
-			{:else}
-				<div class="italic text-sm">empty</div>
-			{/each}
-		</div>
-	</Field>
-
-	<form on:submit|preventDefault={sendMessage}>
-		<TextField label="Message" bind:value={message} shrinkLabel class="mb-1" />
-		<Button type="submit" icon={mdiSend} variant="fill" color="accent" class="gap-2">Send</Button>
-	</form>
 
 	<!-- TODO: Add "are you sure" and move to bottom -->
 	<Button
@@ -200,4 +189,39 @@
 			sendScores();
 		}}>Reset</Button
 	>
+
+	<Toggle let:on={open} let:toggle let:toggleOff>
+		<Button
+			icon={mdiForumOutline}
+			on:click={toggle}
+			class="absolute top-[2px] right-2"
+			color="gray"
+		/>
+		<Drawer {open} on:close={toggleOff} class="w-[400px]">
+			<div class="p-3 grid gap-3">
+				<Field label="Messages">
+					<div>
+						{#each messages as message}
+							<div class="text-sm">{message}</div>
+						{:else}
+							<div class="italic text-sm">empty</div>
+						{/each}
+					</div>
+				</Field>
+
+				<form on:submit|preventDefault={sendMessage}>
+					<TextField label="Message" bind:value={message} shrinkLabel class="mb-1" />
+					<Button type="submit" icon={mdiSend} variant="fill" color="accent" class="gap-2"
+						>Send</Button
+					>
+				</form>
+			</div>
+			<div
+				class="fixed bottom-0 w-full flex justify-center bg-gray-500/25
+			p-1 border-t border-gray-400"
+			>
+				<Button on:click={toggleOff}>Close</Button>
+			</div>
+		</Drawer>
+	</Toggle>
 </div>

@@ -1,6 +1,7 @@
 <script lang="ts">
+	import { mdiForumOutline } from '@mdi/js';
 	import { type DataConnection, Peer } from 'peerjs';
-	import { Field, ScrollingNumber, TextField } from 'svelte-ux';
+	import { Button, Drawer, Field, ScrollingNumber, TextField, Toggle } from 'svelte-ux';
 
 	// 4 digit alphanumeric
 	const peerId = Math.random().toString(36).substring(2, 6).toUpperCase();
@@ -76,8 +77,35 @@
 	}
 </script>
 
-<h1 class="text-6xl font-bold">{peerId}</h1>
-<div>Status: {status}</div>
+<h1 class="text-6xl font-bold">{peerId} <span class="text-xs font-normal">{status}</span></h1>
+
+<Toggle let:on={open} let:toggle let:toggleOff>
+	<Button
+		icon={mdiForumOutline}
+		on:click={toggle}
+		class="absolute top-[2px] right-2"
+		color="gray"
+	/>
+	<Drawer {open} on:close={toggleOff} class="w-[400px]">
+		<div class="p-3 grid gap-3">
+			<Field label="Messages">
+				<div>
+					{#each messages as message}
+						<div class="text-sm">{message}</div>
+					{:else}
+						<div class="italic text-sm">empty</div>
+					{/each}
+				</div>
+			</Field>
+		</div>
+		<div
+			class="fixed bottom-0 w-full flex justify-center bg-gray-500/25
+		p-1 border-t border-gray-400"
+		>
+			<Button on:click={toggleOff}>Close</Button>
+		</div>
+	</Drawer>
+</Toggle>
 
 <div class="grid grid-cols-[1fr,1fr] gap-4">
 	<div
@@ -119,13 +147,3 @@
 		/>
 	</div>
 </div>
-
-<Field label="Messages" class="mt-5">
-	<div>
-		{#each messages as message}
-			<div class="text-sm">{message}</div>
-		{:else}
-			<div class="italic text-sm">empty</div>
-		{/each}
-	</div>
-</Field>
