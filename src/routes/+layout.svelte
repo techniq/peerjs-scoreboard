@@ -2,6 +2,19 @@
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import { ToggleGroup, ToggleOption } from 'svelte-ux';
+
+	async function requestWakeLock() {
+		try {
+			const wakeLock = await navigator.wakeLock.request('screen');
+			console.log('Wakelock requested successfully');
+		} catch (err) {
+			// The wake lock request fails - usually system-related, such as low battery.
+
+			console.log('Unable to request wakelock', err);
+		}
+	}
+
+	requestWakeLock();
 </script>
 
 <header>
