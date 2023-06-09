@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { mdiForumOutline } from '@mdi/js';
+	import { mdiForumOutline, mdiRefresh } from '@mdi/js';
 	import { type DataConnection, Peer } from 'peerjs';
 	import { Button, Drawer, Field, ScrollingNumber, TextField, Toggle } from 'svelte-ux';
 
@@ -77,6 +77,20 @@
 	}
 </script>
 
+<div class="float-right">
+	<Button
+		icon={mdiRefresh}
+		color="red"
+		variant="fill"
+		on:click={() => {
+			scores.blue = 0;
+			scores.red = 0;
+			sendScores();
+		}}
+	>
+		Reset
+	</Button>
+</div>
 <h1 class="text-6xl font-bold">{peerId} <span class="text-xs font-normal">{status}</span></h1>
 
 <Toggle let:on={open} let:toggle let:toggleOff>
@@ -122,8 +136,10 @@
 		<button
 			class="absolute top-[50%] left-0 right-0 bottom-0 z-10"
 			on:click={() => {
-				scores.blue -= 1;
-				sendScores();
+				if (scores.blue > 0) {
+					scores.blue -= 1;
+					sendScores();
+				}
 			}}
 		/>
 	</div>
@@ -141,8 +157,10 @@
 		<button
 			class="absolute top-[50%] left-0 right-0 bottom-0 z-10"
 			on:click={() => {
-				scores.red -= 1;
-				sendScores();
+				if (scores.red > 0) {
+					scores.red -= 1;
+					sendScores();
+				}
 			}}
 		/>
 	</div>
