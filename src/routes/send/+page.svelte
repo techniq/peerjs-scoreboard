@@ -133,6 +133,7 @@
 					sendScores();
 				}}
 				iconOnly={false}
+				disabled={scores.blue === 0}
 			/>
 			<Button class="flex-1 pointer-events-none">
 				<ScrollingNumber
@@ -157,6 +158,7 @@
 					scores.red -= 1;
 					sendScores();
 				}}
+				disabled={scores.red === 0}
 				iconOnly={false}
 			/>
 			<Button class="flex-1 pointer-events-none">

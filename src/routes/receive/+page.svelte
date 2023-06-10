@@ -136,11 +136,10 @@
 		<button
 			class="absolute top-[50%] left-0 right-0 bottom-0 z-10"
 			on:click={() => {
-				if (scores.blue > 0) {
-					scores.blue -= 1;
-					sendScores();
-				}
+				scores.blue -= 1;
+				sendScores();
 			}}
+			disabled={scores.blue === 0}
 		/>
 	</div>
 	<div
@@ -157,11 +156,10 @@
 		<button
 			class="absolute top-[50%] left-0 right-0 bottom-0 z-10"
 			on:click={() => {
-				if (scores.red > 0) {
-					scores.red -= 1;
-					sendScores();
-				}
+				scores.red -= 1;
+				sendScores();
 			}}
+			disabled={scores.red === 0}
 		/>
 	</div>
 </div>
