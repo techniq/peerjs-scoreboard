@@ -1,7 +1,12 @@
 <script lang="ts">
+	import { ToggleGroup, ToggleOption } from 'svelte-ux';
+	import { inject } from '@vercel/analytics';
+
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
-	import { ToggleGroup, ToggleOption } from 'svelte-ux';
+	import { dev } from '$app/environment';
+
+	inject({ mode: dev ? 'development' : 'production' });
 
 	async function requestWakeLock() {
 		try {
