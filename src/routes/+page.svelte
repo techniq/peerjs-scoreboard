@@ -21,7 +21,7 @@
 <section class="mt-4">
 	<h2 class="font-semibold">Send</h2>
 	<ul class="list-inside list-disc text-sm ml-2">
-		<li>Update scores displayed on another device's using the 4 character on the `Receive` page</li>
+		<li>Update scores displayed on another device using the 4 character on the `Receive` page</li>
 		<li>Recommend using a smaller device such as a phone</li>
 	</ul>
 </section>
