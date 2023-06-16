@@ -46,8 +46,14 @@
 	:global(body) {
 		/* Disable double touch zooming */
 		touch-action: pan-x pan-y;
+
 		/* Remove over scrolling */
 		overscroll-behavior-y: none;
+		/* Disable overflow until Safari respects `overscroll-behavior-y` (even though it should: https://caniuse.com/css-overscroll-behavior) */
+		/* https://stackoverflow.com/questions/7768269/ipad-safari-disable-scrolling-and-bounce-effect */
+		/* https://ishadeed.com/article/prevent-scroll-chaining-overscroll-behavior/ */
+		overflow: hidden;
+
 		-webkit-tap-highlight-color: transparent;
 	}
 </style>
