@@ -139,13 +139,13 @@
 	<div
 		class={cls(
 			'relative rounded-lg p-4 aspect-square grid items-center',
-			'border-2 border-blue-500 bg-gradient-to-b from-blue-50 to-blue-100 text-blue-600',
+			'border-2 border-blue-500 bg-gradient-to-b from-blue-50 to-blue-100 text-blue-600 transition-all',
 			lastChanged === 'blue' &&
 				'border-8 from-blue-100 to-blue-200 outline outline-4 outline-offset-[-18px] outline-blue-500'
 		)}
 	>
 		<button
-			class="absolute top-0 left-0 right-0 bottom-[50%] z-10"
+			class="absolute top-0 left-0 right-0 bottom-[50%] z-10 outline-none"
 			on:click={() => {
 				scores.blue += 1;
 				sendScores();
@@ -153,7 +153,7 @@
 		/>
 		<ScrollingNumber value={scores.blue} class="text-[30vw] w-full text-center" />
 		<button
-			class="absolute top-[50%] left-0 right-0 bottom-0 z-10"
+			class="absolute top-[50%] left-0 right-0 bottom-0 z-10 outline-none"
 			on:click={() => {
 				scores.blue -= 1;
 				sendScores();
@@ -165,13 +165,13 @@
 	<div
 		class={cls(
 			'relative rounded-lg p-4 aspect-square grid items-center',
-			'border-2 border-red-500 bg-gradient-to-b from-red-50 to-red-100 text-red-600',
+			'border-2 border-red-500 bg-gradient-to-b from-red-50 to-red-100 text-red-600 transition-all',
 			lastChanged === 'red' &&
 				'border-8 from-red-100 to-red-200 outline outline-4 outline-offset-[-18px] outline-red-500'
 		)}
 	>
 		<button
-			class="absolute top-0 left-0 right-0 bottom-[50%] z-10"
+			class="absolute top-0 left-0 right-0 bottom-[50%] z-10 outline-none"
 			on:click={() => {
 				scores.red += 1;
 				sendScores();
@@ -179,7 +179,7 @@
 		/>
 		<ScrollingNumber value={scores.red} class="text-[30vw] w-full text-center" />
 		<button
-			class="absolute top-[50%] left-0 right-0 bottom-0 z-10"
+			class="absolute top-[50%] left-0 right-0 bottom-0 z-10 outline-none"
 			on:click={() => {
 				scores.red -= 1;
 				sendScores();
