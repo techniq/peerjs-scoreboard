@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { mdiForumOutline, mdiRefresh } from '@mdi/js';
 	import { type DataConnection, Peer } from 'peerjs';
-	import { Button, Drawer, Field, ScrollingNumber, TextField, Toggle } from 'svelte-ux';
+	import { Button, Drawer, Field, ScrollingNumber, Toggle, cls } from 'svelte-ux';
 
 	// 4 digit alphanumeric
 	const peerId = Math.random().toString(36).substring(2, 6).toUpperCase();
@@ -75,6 +75,20 @@
 			c?.send({ type: 'scores', payload: scores });
 		}
 	}
+
+	let previousScores = { ...scores };
+	let lastChanged: 'blue' | 'red' | null = null;
+	$: {
+		if (scores.blue !== 0 && previousScores.blue != scores.blue) {
+			lastChanged = 'blue';
+		} else if (scores.red !== 0 && previousScores.red != scores.red) {
+			lastChanged = 'red';
+		} else {
+			lastChanged = null;
+		}
+
+		previousScores = { ...scores };
+	}
 </script>
 
 <div class="float-right">
@@ -123,7 +137,12 @@
 
 <div class="grid grid-cols-[1fr,1fr] gap-4">
 	<div
-		class="relative border-2 border-blue-500 bg-blue-50 text-blue-500 rounded-lg p-4 aspect-square grid items-center"
+		class={cls(
+			'relative rounded-lg p-4 aspect-square grid items-center',
+			'border-2 border-blue-500 bg-gradient-to-b from-blue-50 to-blue-100 text-blue-600',
+			lastChanged === 'blue' &&
+				'border-8 from-blue-100 to-blue-200 outline outline-4 outline-offset-[-18px] outline-blue-500'
+		)}
 	>
 		<button
 			class="absolute top-0 left-0 right-0 bottom-[50%] z-10"
@@ -142,8 +161,14 @@
 			disabled={scores.blue === 0}
 		/>
 	</div>
+
 	<div
-		class="relative border-2 border-red-500 bg-red-50 text-red-500 rounded-lg p-4 aspect-square grid items-center"
+		class={cls(
+			'relative rounded-lg p-4 aspect-square grid items-center',
+			'border-2 border-red-500 bg-gradient-to-b from-red-50 to-red-100 text-red-600',
+			lastChanged === 'red' &&
+				'border-8 from-red-100 to-red-200 outline outline-4 outline-offset-[-18px] outline-red-500'
+		)}
 	>
 		<button
 			class="absolute top-0 left-0 right-0 bottom-[50%] z-10"
