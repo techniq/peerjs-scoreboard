@@ -43,9 +43,11 @@
 	@tailwind components;
 	@tailwind utilities;
 
-	/* Disable double touch zooming */
 	:global(body) {
+		/* Disable double touch zooming */
 		touch-action: pan-x pan-y;
+		/* Remove over scrolling */
+		overscroll-behavior-y: none;
 		-webkit-tap-highlight-color: transparent;
 	}
 </style>
