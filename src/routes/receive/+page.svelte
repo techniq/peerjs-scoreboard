@@ -2,6 +2,7 @@
 	import { mdiForumOutline, mdiRefresh } from '@mdi/js';
 	import { type DataConnection, Peer } from 'peerjs';
 	import { Button, Drawer, Field, ScrollingNumber, Toggle, cls } from 'svelte-ux';
+	import { confetti } from '@neoconfetti/svelte';
 
 	// 4 digit alphanumeric
 	const peerId = Math.random().toString(36).substring(2, 6).toUpperCase();
@@ -160,6 +161,19 @@
 			}}
 			disabled={scores.blue === 0}
 		/>
+
+		{#if scores.blue >= 21}
+			<div
+				style="position: absolute; left: 50%; top: 0%"
+				class="[--color1:theme(colors.blue.300)] [--color2:theme(colors.blue.400)] [--color3:theme(colors.blue.500)]"
+				use:confetti={{
+					force: 0.7,
+					stageWidth: window.innerWidth,
+					stageHeight: window.innerHeight,
+					colors: ['var(--color1)', 'var(--color2)', 'var(--color3)']
+				}}
+			/>
+		{/if}
 	</div>
 
 	<div
@@ -186,5 +200,18 @@
 			}}
 			disabled={scores.red === 0}
 		/>
+
+		{#if scores.red >= 21}
+			<div
+				style="position: absolute; left: 50%; top: 0%"
+				class="[--color1:theme(colors.red.300)] [--color2:theme(colors.red.400)] [--color3:theme(colors.red.500)]"
+				use:confetti={{
+					force: 0.7,
+					stageWidth: window.innerWidth,
+					stageHeight: window.innerHeight,
+					colors: ['var(--color1)', 'var(--color2)', 'var(--color3)']
+				}}
+			/>
+		{/if}
 	</div>
 </div>
