@@ -10,8 +10,9 @@
 		Toggle
 	} from 'svelte-ux';
 	import { mdiConnection, mdiForumOutline, mdiMinus, mdiPlus, mdiRefresh, mdiSend } from '@mdi/js';
+	import { uuid } from '$lib/random';
 
-	const peerId = crypto.randomUUID();
+	const peerId = uuid();
 	const peer = new Peer(peerId, {
 		debug: 2
 	});
