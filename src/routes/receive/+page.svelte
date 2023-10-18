@@ -108,7 +108,7 @@
 </div>
 <h1 class="text-6xl font-bold">{peerId} <span class="text-xs font-normal">{status}</span></h1>
 
-<Toggle let:on={open} let:toggle let:toggleOff>
+<!-- <Toggle let:on={open} let:toggle let:toggleOff>
 	<Button
 		icon={mdiForumOutline}
 		on:click={toggle}
@@ -134,7 +134,7 @@
 			<Button on:click={toggleOff}>Close</Button>
 		</div>
 	</Drawer>
-</Toggle>
+</Toggle> -->
 
 <div class="grid grid-cols-[1fr,1fr] gap-4">
 	<div

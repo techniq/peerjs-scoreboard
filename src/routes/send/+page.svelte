@@ -193,7 +193,7 @@
 		}}>Reset</Button
 	>
 
-	<Toggle let:on={open} let:toggle let:toggleOff>
+	<!-- <Toggle let:on={open} let:toggle let:toggleOff>
 		<Button
 			icon={mdiForumOutline}
 			on:click={toggle}
@@ -226,5 +226,5 @@
 				<Button on:click={toggleOff}>Close</Button>
 			</div>
 		</Drawer>
-	</Toggle>
+	</Toggle> -->
 </div>
