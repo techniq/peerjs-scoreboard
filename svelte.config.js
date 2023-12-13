@@ -1,4 +1,4 @@
-import adapter from '@sveltejs/adapter-auto';
+import cloudflare from '@sveltejs/adapter-cloudflare';
 import { vitePreprocess } from '@sveltejs/kit/vite';
 import sveltePreprocess from 'svelte-preprocess';
 
@@ -9,7 +9,7 @@ const config = {
 	preprocess: [sveltePreprocess()],
 
 	kit: {
-		adapter: adapter()
+		adapter: cloudflare()
 	}
 };
 
