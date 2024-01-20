@@ -25,7 +25,13 @@
 <header>
 	<ToggleGroup
 		value={$page.url.pathname}
-		variant="underlined"
+		variant="underline"
+		classes={{
+			root: 'overflow-auto scrollbar-none',
+			options: 'h-10 justify-start',
+			label: 'first:ml-4',
+			option: 'px-4 whitespace-nowrap'
+		}}
 		on:change={(e) => goto(e.detail.value)}
 	>
 		<ToggleOption value="/" class="w-32">Home</ToggleOption>

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { mdiForumOutline, mdiRefresh } from '@mdi/js';
 	import { type DataConnection, Peer } from 'peerjs';
-	import { Button, Drawer, Field, ScrollingNumber, Toggle, cls } from 'svelte-ux';
+	import { Button, Drawer, Field, ScrollingValue, Toggle, cls } from 'svelte-ux';
 	import { confetti } from '@neoconfetti/svelte';
 
 	// 4 digit alphanumeric
@@ -152,7 +152,7 @@
 				sendScores();
 			}}
 		/>
-		<ScrollingNumber value={scores.blue} class="text-[30vw] w-full text-center" />
+		<ScrollingValue value={scores.blue} class="text-[30vw] w-full text-center" />
 		<button
 			class="absolute top-[50%] left-0 right-0 bottom-0 z-10 outline-none"
 			on:click={() => {
@@ -191,7 +191,7 @@
 				sendScores();
 			}}
 		/>
-		<ScrollingNumber value={scores.red} class="text-[30vw] w-full text-center" />
+		<ScrollingValue value={scores.red} class="text-[30vw] w-full text-center" />
 		<button
 			class="absolute top-[50%] left-0 right-0 bottom-0 z-10 outline-none"
 			on:click={() => {

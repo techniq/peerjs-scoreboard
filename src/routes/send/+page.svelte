@@ -1,14 +1,6 @@
 <script lang="ts">
 	import { type DataConnection, Peer } from 'peerjs';
-	import {
-		Button,
-		ButtonGroup,
-		Drawer,
-		Field,
-		ScrollingNumber,
-		TextField,
-		Toggle
-	} from 'svelte-ux';
+	import { Button, ButtonGroup, Drawer, Field, ScrollingValue, TextField, Toggle } from 'svelte-ux';
 	import { mdiConnection, mdiForumOutline, mdiMinus, mdiPlus, mdiRefresh, mdiSend } from '@mdi/js';
 	import { uuid } from '$lib/random';
 
@@ -137,7 +129,7 @@
 				disabled={scores.blue === 0}
 			/>
 			<Button class="flex-1 pointer-events-none">
-				<ScrollingNumber
+				<ScrollingValue
 					value={scores.blue}
 					classes={{ root: 'w-full', value: 'w-full text-center' }}
 				/>
@@ -163,7 +155,7 @@
 				iconOnly={false}
 			/>
 			<Button class="flex-1 pointer-events-none">
-				<ScrollingNumber
+				<ScrollingValue
 					value={scores.red}
 					classes={{ root: 'w-full', value: 'w-full text-center' }}
 				/>
